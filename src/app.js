@@ -49,9 +49,10 @@ const App = () => {
     totalSubjectsPerYearCopy[year - 1]--;
     setTotalSubjectsPerYear(totalSubjectsPerYearCopy);
   };
+
   let totalPoints = 0;
   let totalSubjects = 0;
-
+  let totalWeight = 0;
   const yearWeights = {
     // 1st year is weighted at 0 on your final QCA
     1: 0,
@@ -65,10 +66,11 @@ const App = () => {
     const year = index + 1;
     y.forEach((g) => {
       totalPoints += grades[g] * yearWeights[year];
-      totalSubjects += 1 * yearWeights[year];
+      totalSubjects += 1;
+      totalWeight += 1 * yearWeights[year];
     });
   });
-  const qca = totalPoints / totalSubjects;
+  const qca = totalPoints / totalWeight;
 
   const honors = (qca) => {
     let result = "Fail";
@@ -87,6 +89,16 @@ const App = () => {
     return result;
   }
 
+  const header = (totalPoints, totalSubjects, qca) => {
+    if(totalSubjects === 0){
+      return "Select your grades";
+    }else if(totalPoints === 0){
+      return "1st year results do not factor into final QCA";
+    } else {
+      return `Overall QCA is ${qca.toFixed(2)}, ${honors(qca)}`;
+    }
+  }
+
   return (
     <>
       <div className="header">
@@ -94,9 +106,7 @@ const App = () => {
       </div>
       <div className="topInfo">
         <p>
-          {totalPoints === 0
-            ? "Select your grades"
-            : `Overall QCA is ${qca.toFixed(2)}, ${honors(qca)}`}
+          {header(totalPoints, totalSubjects, qca)}
         </p>
         <p>Total number of subjects: {totalSubjects}</p>
       </div>
