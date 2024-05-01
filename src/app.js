@@ -52,10 +52,20 @@ const App = () => {
   let totalPoints = 0;
   let totalSubjects = 0;
 
-  eachGradePerYear.forEach((y) => {
+  const yearWeights = {
+    // 1st year is weighted at 0 on your final QCA
+    1: 0,
+    2: 1,
+    3: 1,
+    // 4th year is weighted double on your final QCA
+    4: 2
+  };
+
+  eachGradePerYear.forEach((y, index) => {
+    const year = index + 1;
     y.forEach((g) => {
-      totalPoints += grades[g];
-      totalSubjects++;
+      totalPoints += grades[g] * yearWeights[year];
+      totalSubjects += 1 * yearWeights[year];
     });
   });
   const qca = totalPoints / totalSubjects;
