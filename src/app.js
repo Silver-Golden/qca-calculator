@@ -70,6 +70,23 @@ const App = () => {
   });
   const qca = totalPoints / totalSubjects;
 
+  const honors = (qca) => {
+    let result = "Fail";
+    if(qca >= 2.0){
+      result = "Third class honours";
+    }
+    if(qca >= 2.6){
+      result = "Second class, grade 2 (2.2)";
+    }
+    if(qca >= 3.0){
+      result = "Second class, grade 1 (2.1)";
+    }
+    if(qca >= 3.4){
+      result = "First class honours";
+    }
+    return result;
+  }
+
   return (
     <>
       <div className="header">
@@ -79,7 +96,7 @@ const App = () => {
         <p>
           {totalPoints === 0
             ? "Select your grades"
-            : `Overall QCA is ${qca.toFixed(2)}`}
+            : `Overall QCA is ${qca.toFixed(2)}, ${honors(qca)}`}
         </p>
         <p>Total number of subjects: {totalSubjects}</p>
       </div>
